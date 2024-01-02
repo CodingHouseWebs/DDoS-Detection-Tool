@@ -1,0 +1,41 @@
+Graphical User Interface (GUI):
+
+The tool provides a GUI built using Tkinter, a standard GUI toolkit for Python.
+Users can start and stop the sniffing process with dedicated buttons.
+Detected attacks are displayed in a text box within the GUI.
+DDoS Detection Mechanism:
+
+The core of the tool lies in the ddos_detector.py script.
+It uses the scapy library to capture and analyze network packets.
+The packet_callback function is called for each captured packet and counts the number of packets from different source IPs.
+Detection Criteria:
+
+If the number of packets from a source IP exceeds a certain threshold (THRESHOLD_PACKETS_PER_SECOND), an attack is detected.
+The tool checks if the source IP is malicious by querying a reputation service. If the service reports it as malicious, the tool takes additional actions.
+Actions on Detection:
+
+If the source IP is identified as malicious, the tool blocks the IP using platform-specific methods (iptables for Linux, netsh for Windows).
+If the IP is not malicious, it applies rate limiting, diverts traffic to a sinkhole IP, and changes routes.
+Traffic Shaping:
+
+The tool supports traffic shaping to limit the bandwidth and introduce latency for detected traffic.
+Continuous Monitoring:
+
+A continuous monitoring thread runs in the background, reporting the current packet rate every 60 seconds.
+Configuration through GUI:
+
+Users can configure various parameters through the GUI, such as sinkhole IP, new route IP, reputation service URL, threshold values, and traffic shaping parameters.
+Internal IP Ranges:
+
+The tool allows the definition of internal IP ranges in CIDR notation, ensuring that internal traffic is not considered for DDoS detection.
+Logging:
+
+Detected DDoS attacks are logged in a file (ddos_log.txt) with timestamps and relevant information.
+Threaded Execution:
+
+The tool uses threading to perform continuous monitoring in the background without blocking the GUI.
+Cross-Platform Support:
+The tool attempts to use platform-specific commands for tasks like blocking IPs, making it suitable for both Linux and Windows environments.
+Reputation Service Communication:
+The tool communicates with a reputation service to determine if an IP is malicious.
+SSL/TLS support is added for secure communication with the reputation service (optional based on the service's support).

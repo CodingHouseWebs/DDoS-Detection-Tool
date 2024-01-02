@@ -1,0 +1,2 @@
+[console_scripts]
+ddos_detection_app = ddos_detection_tool.gui.ddos_detection_app:main
